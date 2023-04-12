@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/stylesheets/style.css">
+  <title>Son Jump</title>
+</head>
+<body>
+  <div class="grid-container">
+    <header>
+      <div class="logo">  
+        <img src="./assets/images/son-jump-logo.png" alt="son-jump-logo">
+        <h1>Son Jump</h1>
+      </div>
+
+      <div class="game-settings">
+        <div class="settings-button">
+          <button class = "newGame button">New Game</button>
+          <button class = 'instructions button'>Instructions</button>
+          <button class = "restart button">Restart</button>
+          <button class = "quit button">Quit</button>
+        </div>
+      </div>
+    </header>
+    <div class="main">
+      <div class="instructions" style="display:none;">
+        <h2>Instructions</h2>
+        <p>
+          Your goal is to jump on the moving platforms and reach the score of 50000.
+        </p>
+        <p>
+          Use the "A" or "ArrowLeft" key to move left and the "D" or "ArrowRight" key to move right.
+        </p>
+        <p>
+          The speed of the game increases as your score goes up.
+        </p>
+      </div>
+      <div id="game-area">
+        <span class= "scoreboard"></span>
+      </div>
+    </div>
+    <footer>
+      <p>© Jason Miranda</p>
+    </footer>
+  </div>
+
+  <script src="./assets/scripts/script.js"></script>
+</body>
+</html>

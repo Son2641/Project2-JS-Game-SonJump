@@ -1,0 +1,188 @@
+@font-face { font-family: Saiyan SansRegular; src: url('../fonts/Saiyan-Sans.ttf'); }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Saiyan SansRegular;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-image: url(../images/body-background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.grid-container {
+  display: grid;
+  min-height: 100vh;
+  grid-template: 8% 87% 5%/ 1fr;
+  grid-template-areas: 
+  "header"
+  "main"
+  "footer";
+}
+
+header {
+  display: flex;
+  grid-area: header;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 30px;
+  padding-top: 15px;
+}
+
+.settings-button {
+  display: flex;
+  gap: 20px;
+}
+
+button {
+  all: unset;
+  font-size: 35px;
+}
+
+button:hover {
+  opacity: 0.6;
+  transform: scale(1.1);
+}
+
+button:active {
+  
+}
+
+header img {
+  width: 60px;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  grid-area: main;
+  width: 100%;
+}
+
+#game-area {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 5px;
+  width: 550px;
+  height: 100%;
+  position: relative;
+  background-color: #FFE6C7;
+  font-size: 2em;
+  color: #0e0bb0;
+  padding-top: 1em;
+  text-align: center;
+}
+
+.player {
+  width: 70px;
+  height: 90px;
+  background-size: 70px 90px;
+  position: absolute;
+  background-image: url(../images/son-goku-player.png);
+}
+
+.platform {
+  width: 100px;
+  background-image: url(../images/cloud-platform.png);
+  background-size: 95px 25px;
+  height: 25px;
+  position: absolute;
+}
+
+.scoreboard, .game-over {
+  color: #0e0bb0;
+  font-size: 1em;
+  margin-top: 1em;
+}
+
+footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+/* Media queries for smaller devices */
+@media (max-width: 767px) {
+  #game-area {
+    width: 90%;
+    height: 90%;
+  }
+  
+  .player {
+    width: 50px;
+    height: 65px;
+    background-size: 50px 65px;
+  }
+  
+  .platform {
+    width: 70px;
+    background-size: 70px 18px;
+    height: 18px;
+  }
+  
+  .logo {
+    font-size: 20px;
+  }
+  
+  header img {
+    width: 40px;
+  }
+  
+  button {
+    font-size: 25px;
+  }
+  
+  .settings-button {
+    gap: 10px;
+  }
+  
+  .scoreboard, .game-over {
+    font-size: 0.8em;
+  }
+  
+  footer {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 500px) {
+  .logo {
+    font-size: 16px;
+    gap: 10px;
+  }
+  
+  header img {
+    width: 35px;
+  }
+  
+  button {
+    font-size: 20px;
+  }
+  
+  .settings-button {
+    gap: 5px;
+  }
+  
+  .scoreboard, .game-over {
+    font-size: 0.7em;
+  }
+  
+  footer {
+    font-size: 1em;
+  }
+}
