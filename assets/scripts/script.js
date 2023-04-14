@@ -1,14 +1,28 @@
 (() => {
-  const gameArea = document.getElementById('game-area');
-  const player = document.createElement('div');
-  const scoreBoard = document.querySelector('.scoreboard');
-  const newGame = document.querySelector('.newGame');
-  const quitGame = document.querySelector('.quit');
-  const restartGame = document.querySelector('.restart');
+  const getElement = (selector) => document.querySelector(selector);
+  const createDivWithClass = (className) => {
+    const div = document.createElement('div');
+    div.classList.add(className);
+    return div;
+  };
+  const removeAllChildren = (element) => {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  };
+  const gameArea = getElement('#game-area');
+  const player = createDivWithClass('player');
+  const scoreBoard = getElement('.scoreboard');
+  const newGame = getElement('.newGame');
+  const quitGame = getElement('.quit');
+  const restartGame = getElement('.restart');
+  const instructionsButton = getElement('.instructions');
+  const instructionsDiv = getElement('.instructions-container');
   const gameAreaWidth = 550;
   const gravity = 0.8;
   const platformHeight = gameArea.offsetHeight;
-  const speed = 1; // the initial speed of the platforms
+  let speed = 1; // the initial speed of the platforms
+  let currentSpeed = speed;
   const maxSpeed = 10; // the maximum speed of the platforms
   const ongoingTouches = [];
   let score = 0;
@@ -30,6 +44,27 @@
   let initialTouchY = null;
   let movePlatformsInterval;
   let controlsEnabled = true;
+
+  // Instructions Button
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('instructions-modal');
+    const btn = document.querySelector('.instructions');
+    const span = document.querySelector('.close');
+
+    btn.onclick = () => {
+      modal.style.display = 'block';
+    };
+
+    span.onclick = () => {
+      modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    };
+  });
 
   // Create Player
   const createPlayer = () => {
@@ -57,37 +92,42 @@
 
   // Create initial platforms
   const createPlatform = () => {
+    let gameAreaHeight = window.innerHeight * 0.85; // adjust game area height based on screen size
+    gameArea.style.height = gameAreaHeight + 'px';
     for (let i = 0; i < platformCount; i++) {
-      let platformGap = 600 / platformCount;
+      let platformGap = gameAreaHeight / platformCount;
       let newPlatformBottom = 100 + i * platformGap;
       let newPlatform = new Platform(newPlatformBottom);
       platforms.push(newPlatform);
     }
   };
 
-  const getPlatformPosition = (score) => {
+  const getPlatformPosition = () => {
     const basePosition = 4; // the base position of the platforms
-    const platformSpeed = Math.floor((score - 1) / 4) * speed; // calculate the current platform speed based on score and speed variables
+    const platformSpeed = Math.floor((score - 1) / 4) * currentSpeed; // calculate the current platform speed based on score and speed variables
     return basePosition + platformSpeed; // return the final platform position
   };
 
   const increaseSpeed = () => {
     if (speed < maxSpeed) {
-      speed += 0.5;
+      speed += 0.7;
     }
+    setTimeout(increaseSpeed, 1000);
   };
 
-  setInterval(increaseSpeed, 500);
+  increaseSpeed();
 
+  // Scoreboard
   const updateScoreDisplay = () => {
-    scoreBoard.textContent = `Score: ${score * 100}`;
+    scoreBoard.textContent = score * 100;
   };
 
-  // Create new platforms after inital
+  // Create new platforms after inital platforms
   const movePlatforms = () => {
     if (playerBottomSpace > 200) {
+      updateScoreDisplay();
       platforms.forEach((platform) => {
-        platform.bottom -= getPlatformPosition(score);
+        platform.bottom -= getPlatformPosition();
         let visual = platform.visual;
         visual.style.bottom = platform.bottom + 'px';
 
@@ -96,7 +136,7 @@
           firstPlatform.classList.remove('platform');
           platforms.shift();
           score++;
-          updateScoreDisplay();
+          console.log(score);
           if (score === 50) {
             winGame();
           } else {
@@ -119,7 +159,6 @@
         fallPlayer();
         isJumping = false;
       }
-      scoreBoard.textContent = score;
     }, 20);
   };
 
@@ -128,7 +167,7 @@
     clearInterval(upTimerId);
     isJumping = false;
     downTimerId = setInterval(() => {
-      playerBottomSpace -= 5;
+      playerBottomSpace -= 6;
       player.style.bottom = playerBottomSpace + 'px';
       if (playerBottomSpace <= 0) {
         gameOver();
@@ -136,9 +175,12 @@
       platforms.forEach((platform) => {
         if (
           playerBottomSpace >= platform.bottom &&
+          // 25 = platform height
           playerBottomSpace <= platform.bottom + 25 &&
+          // 70 = player width
           playerLeftSpace + 70 >= platform.left &&
-          playerLeftSpace <= platform.left + 95 &&
+          // 100 = platform width
+          playerLeftSpace <= platform.left + 100 &&
           !isJumping
         ) {
           startPoint = playerBottomSpace;
@@ -146,7 +188,6 @@
           isJumping = true;
         }
       });
-      scoreBoard.textContent = score;
     }, 20);
   };
 
@@ -159,8 +200,10 @@
     if (!controlsEnabled) return;
     if (event.key === 'd' || event.key === 'ArrowRight') {
       moveRight();
+      updateScoreDisplay();
     } else if (event.key === 'a' || event.key === 'ArrowLeft') {
       moveLeft();
+      updateScoreDisplay();
     }
   };
 
@@ -173,7 +216,7 @@
       isGoingRight = true;
       rightTimerId = setInterval(() => {
         if (playerLeftSpace <= 480) {
-          playerLeftSpace += 6;
+          playerLeftSpace += 7;
           player.style.left = playerLeftSpace + 'px';
         } else moveLeft();
       }, 20);
@@ -189,7 +232,7 @@
       isGoingLeft = true;
       leftTimerId = setInterval(() => {
         if (playerLeftSpace >= 0) {
-          playerLeftSpace -= 6;
+          playerLeftSpace -= 7;
           player.style.left = playerLeftSpace + 'px';
         } else moveRight();
       }, 20);
@@ -236,10 +279,6 @@
           } else {
             moveRight();
           }
-        } else {
-          if (diffY > 0) {
-            moveStraight();
-          }
         }
         ongoingTouches[idx].clientX = touch.clientX;
         ongoingTouches[idx].clientY = touch.clientY;
@@ -258,50 +297,20 @@
     }
   };
 
-  newGame.addEventListener('click', () => {
-    isGameOver = false;
-    while (gameArea.firstChild) {
-      gameArea.removeChild(gameArea.firstChild);
-    }
-    score = 0;
-    platforms = [];
-    playerLeftSpace = 50;
-    startPoint = 150;
-    playerBottomSpace = startPoint;
-    platformCount = 5;
-    isJumping = true;
-    isGoingLeft = false;
-    isGoingRight = false;
-    clearAllIntervals();
-    toggleControls(true); // Enable controls
-    initGame();
-  });
-
   // Restart Game
   newGame.addEventListener('click', () => {
-    isGameOver = false;
-    while (gameArea.firstChild) {
-      gameArea.removeChild(gameArea.firstChild);
-    }
-    score = 0;
-    platforms = [];
-    playerLeftSpace = 50;
-    startPoint = 150;
-    playerBottomSpace = startPoint;
-    platformCount = 5;
-    isJumping = true;
-    isGoingLeft = false;
-    isGoingRight = false;
-    clearAllIntervals();
-    toggleControls(true); // Enable controls
+    resetGame();
     initGame();
   });
 
   restartGame.addEventListener('click', () => {
+    resetGame();
+    initGame();
+  });
+
+  const resetGame = () => {
     isGameOver = false;
-    while (gameArea.firstChild) {
-      gameArea.removeChild(gameArea.firstChild);
-    }
+    removeAllChildren(gameArea);
     score = 0;
     platforms = [];
     playerLeftSpace = 50;
@@ -312,11 +321,12 @@
     isGoingLeft = false;
     isGoingRight = false;
     clearAllIntervals();
-    initGame();
-  });
+    toggleControls(true); // Enable controls
+  };
 
   // Game Loop
   const initGame = () => {
+    gameArea.appendChild(scoreBoard);
     createPlatform();
     createPlayer();
     clearAllIntervals(); // Clear the intervals before assigning new ones

@@ -18,27 +18,27 @@
       <div class="game-settings">
         <div class="settings-button">
           <button class = "newGame button">New Game</button>
-          <button class = 'instructions button'>Instructions</button>
+          <button class = 'instructions'>Instructions</button>
           <button class = "restart button">Restart</button>
           <button class = "quit button">Quit</button>
         </div>
       </div>
     </header>
-    <div class="main">
-      <div class="instructions" style="display:none;">
-        <h2>Instructions</h2>
-        <p>
-          Your goal is to jump on the moving platforms and reach the score of 50000.
-        </p>
-        <p>
-          Use the "A" or "ArrowLeft" key to move left and the "D" or "ArrowRight" key to move right.
-        </p>
-        <p>
-          The speed of the game increases as your score goes up.
-        </p>
+    <div id="instructions-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Instructions:</h2>
+        <ul>
+          <li>Use your left and right arrow keys or 'a' and 'd' in your keyboard to move Son Goku.</li>
+          <li>Son Goku's goal is to jump on the moving platforms and reach the score of 50000.</li>
+          <li>Score is added based on the number of platforms eliminated</li>
+          <li>The speed of the game increases as your score goes up.</li>
+        </ul>
       </div>
+    </div>
+    <div class="main">
       <div id="game-area">
-        <span class= "scoreboard"></span>
+        <div class= "scoreboard"></div>
       </div>
     </div>
     <footer>

@@ -1,4 +1,7 @@
-@font-face { font-family: Saiyan SansRegular; src: url('../fonts/Saiyan-Sans.ttf'); }
+@font-face { 
+  font-family: Saiyan SansRegular; 
+  src: url('../fonts/Saiyan-Sans.ttf');
+ }
 
 *{
   margin: 0;
@@ -66,6 +69,46 @@ header img {
   width: 60px;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+ul {
+  font-size: 2em;
+  padding-left: 10px;
+}
+
+.modal-content {
+  background-color: #FFE6C7;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  border-radius: 10px;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .main {
   display: flex;
   justify-content: center;
@@ -116,73 +159,85 @@ footer {
   font-size: 1.5em;
 }
 
-/* Media queries for smaller devices */
-@media (max-width: 767px) {
+/* Media Queries
+/* For Tablet */
+@media only screen and (min-width: 600px) and (max-width: 768px) {
   #game-area {
-    width: 90%;
-    height: 90%;
-  }
-  
-  .player {
-    width: 50px;
-    height: 65px;
-    background-size: 50px 65px;
-  }
-  
-  .platform {
-    width: 70px;
-    background-size: 70px 18px;
-    height: 18px;
+    width: 80%;
   }
   
   .logo {
-    font-size: 20px;
+    padding-top: 0;
+    gap: 15px;
+    font-size: 30px;
   }
-  
+
+  .settings-button {
+    gap: 15px;
+  }
+
+  button {
+    font-size: 30px;
+  }
+
   header img {
     width: 40px;
   }
-  
-  button {
-    font-size: 25px;
-  }
-  
-  .settings-button {
-    gap: 10px;
-  }
-  
-  .scoreboard, .game-over {
-    font-size: 0.8em;
-  }
-  
-  footer {
-    font-size: 1.2em;
-  }
-}
 
-@media (max-width: 500px) {
-  .logo {
-    font-size: 16px;
-    gap: 10px;
+  .player {
+    width: 80px;
+    height: 100px;
+    background-size: 80px 100px;
   }
   
-  header img {
-    width: 35px;
+  .platform {
+    width: 110px;
+    background-image: url(../images/cloud-platform.png);
+    background-size: 110px 35px;
+    height: 35px;
   }
-  
-  button {
-    font-size: 20px;
+
+  .scoreboard {
+    font-size: 1rem;
   }
-  
-  .settings-button {
-    gap: 5px;
-  }
-  
-  .scoreboard, .game-over {
-    font-size: 0.7em;
-  }
-  
+
   footer {
-    font-size: 1em;
+    font-size: 1.5em;
   }
-}
+} 
+
+/* For Mobile Devices */
+ @media only screen and (max-width: 600px) {
+    #game-area {
+      width: 80%;
+    }
+    
+    .logo {
+      padding-top: 0;
+      gap: 5px;
+      font-size: 10px;
+    }
+
+    .settings-button {
+      gap: 10px;
+    }
+  
+    button {
+      font-size: 15px;
+    }
+  
+    header img {
+      width: 30px;
+    }
+  
+    .scoreboard {
+      font-size: 1rem;
+    }
+  
+    footer {
+      font-size: 1.2em;
+    }
+  } 
+
+
+  
