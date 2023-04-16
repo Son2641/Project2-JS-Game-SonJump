@@ -269,7 +269,7 @@
       isGoingRight = true;
       rightTimerId = setInterval(() => {
         if (playerLeftSpace <= 480) {
-          playerLeftSpace += 7;
+          playerLeftSpace += 8;
           player.style.left = playerLeftSpace + 'px';
         } else moveLeft();
       }, 20);
@@ -285,7 +285,7 @@
       isGoingLeft = true;
       leftTimerId = setInterval(() => {
         if (playerLeftSpace >= 0) {
-          playerLeftSpace -= 7;
+          playerLeftSpace -= 8;
           player.style.left = playerLeftSpace + 'px';
         } else moveRight();
       }, 20);
