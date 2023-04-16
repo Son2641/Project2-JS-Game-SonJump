@@ -36,6 +36,7 @@ header {
   grid-area: header;
   justify-content: space-between;
   padding: 20px;
+  z-index: 999;
 }
 
 .logo {

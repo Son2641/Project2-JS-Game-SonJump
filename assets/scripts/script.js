@@ -137,7 +137,7 @@
 
   // Create initial platforms
   const createPlatform = () => {
-    let gameAreaHeight = window.innerHeight * 0.85; // adjust game area height based on screen size
+    let gameAreaHeight = window.innerHeight * 0.84; // adjust game area height based on screen size
     gameArea.style.height = gameAreaHeight + 'px';
     let platformGap = gameAreaHeight / platformCount;
 
@@ -147,7 +147,7 @@
     }
 
     for (let i = 0; i < platformCount; i++) {
-      let newPlatformBottom = 100 + i * platformGap;
+      let newPlatformBottom = 110 + i * platformGap;
       let previousPlatform =
         platforms.length > 0 ? platforms[platforms.length - 1] : null;
       let newPlatform = new Platform(newPlatformBottom, previousPlatform);
@@ -190,7 +190,7 @@
           platforms.shift();
           score++;
           console.log(score);
-          if (score === 50) {
+          if (score === 10) {
             winGame();
           } else {
             let newPlatform = new Platform(platformHeight);
