@@ -190,7 +190,7 @@
           platforms.shift();
           score++;
           console.log(score);
-          if (score === 10) {
+          if (score === 50) {
             winGame();
           } else {
             let newPlatform = new Platform(platformHeight);
