@@ -18,12 +18,13 @@
   const restartGame = getElement('.restart');
   const instructionsButton = getElement('.instructions');
   const instructionsDiv = getElement('.instructions-container');
-  const gameAreaWidth = 550;
+  // const gameAreaWidth = 530;
+  const gameAreaWidth = Math.min(window.innerWidth, 530);
   const gravity = 0.8;
   const platformHeight = gameArea.offsetHeight;
   let speed = 1; // the initial speed of the platforms
   let currentSpeed = speed;
-  const maxSpeed = 10; // the maximum speed of the platforms
+  const maxSpeed = 20; // the maximum speed of the platforms
   const ongoingTouches = [];
   let score = 0;
   let isGameOver = false;
@@ -76,10 +77,23 @@
   };
 
   // Platform
+  // class Platform {
+  //   constructor(newPlatformBottom) {
+  //     this.bottom = newPlatformBottom;
+  //     this.left = Math.random() * (gameAreaWidth - 100);
+  //     this.visual = document.createElement('div');
+
+  //     const visual = this.visual;
+  //     visual.classList.add('platform');
+  //     visual.style.left = this.left + 'px';
+  //     visual.style.bottom = this.bottom + 'px';
+  //     gameArea.appendChild(visual);
+  //   }
+  // }
   class Platform {
-    constructor(newPlatformBottom) {
+    constructor(newPlatformBottom, previousPlatform) {
       this.bottom = newPlatformBottom;
-      this.left = Math.random() * (gameAreaWidth - 100);
+      this.left = this.calculateLeftPosition(previousPlatform);
       this.visual = document.createElement('div');
 
       const visual = this.visual;
@@ -88,16 +102,55 @@
       visual.style.bottom = this.bottom + 'px';
       gameArea.appendChild(visual);
     }
+
+    calculateLeftPosition(previousPlatform) {
+      if (!previousPlatform) {
+        // For the first platform, use the original random position calculation
+        return Math.random() * (gameAreaWidth - 100);
+      }
+
+      // Define the minimum and maximum horizontal distance between platforms
+      const minHorizontalDistance = 50;
+      const maxHorizontalDistance = 180;
+
+      // Calculate a random horizontal distance between min and max values
+      const randomHorizontalDistance =
+        Math.random() * (maxHorizontalDistance - minHorizontalDistance) +
+        minHorizontalDistance;
+
+      // Determine if the new platform should be placed to the left or right of the previous platform
+      const direction = Math.random() > 0.5 ? -1 : 1;
+
+      // Calculate the left position of the new platform
+      let newLeftPosition =
+        previousPlatform.left + direction * randomHorizontalDistance;
+
+      // Ensure the new left position is within the game area boundaries
+      newLeftPosition = Math.max(
+        0,
+        Math.min(newLeftPosition, gameAreaWidth - 100)
+      );
+
+      return newLeftPosition;
+    }
   }
 
   // Create initial platforms
   const createPlatform = () => {
     let gameAreaHeight = window.innerHeight * 0.85; // adjust game area height based on screen size
     gameArea.style.height = gameAreaHeight + 'px';
+    let platformGap = gameAreaHeight / platformCount;
+
+    // Decrease the platform gap on smaller screens
+    if (window.innerWidth <= 600) {
+      platformGap *= 1.1;
+    }
+
     for (let i = 0; i < platformCount; i++) {
-      let platformGap = gameAreaHeight / platformCount;
       let newPlatformBottom = 100 + i * platformGap;
-      let newPlatform = new Platform(newPlatformBottom);
+      let previousPlatform =
+        platforms.length > 0 ? platforms[platforms.length - 1] : null;
+      let newPlatform = new Platform(newPlatformBottom, previousPlatform);
       platforms.push(newPlatform);
     }
   };
@@ -110,7 +163,7 @@
 
   const increaseSpeed = () => {
     if (speed < maxSpeed) {
-      speed += 0.7;
+      speed += 1;
     }
     setTimeout(increaseSpeed, 1000);
   };
@@ -155,7 +208,7 @@
     upTimerId = setInterval(() => {
       playerBottomSpace += 10;
       player.style.bottom = playerBottomSpace + 'px';
-      if (playerBottomSpace > startPoint + 150) {
+      if (playerBottomSpace > startPoint + 140) {
         fallPlayer();
         isJumping = false;
       }
@@ -175,8 +228,8 @@
       platforms.forEach((platform) => {
         if (
           playerBottomSpace >= platform.bottom &&
-          // 25 = platform height
-          playerBottomSpace <= platform.bottom + 25 &&
+          // 30 = platform height
+          playerBottomSpace <= platform.bottom + 30 &&
           // 70 = player width
           playerLeftSpace + 70 >= platform.left &&
           // 100 = platform width

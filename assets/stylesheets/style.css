@@ -119,7 +119,7 @@ ul {
 #game-area {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 5px;
-  width: 550px;
+  width: 530px;
   height: 100%;
   position: relative;
   background-color: #FFE6C7;
@@ -140,8 +140,8 @@ ul {
 .platform {
   width: 100px;
   background-image: url(../images/cloud-platform.png);
-  background-size: 95px 25px;
-  height: 25px;
+  background-size: 100px 30px;
+  height: 30px;
   position: absolute;
 }
 
@@ -163,13 +163,13 @@ footer {
 /* For Tablet */
 @media only screen and (min-width: 600px) and (max-width: 768px) {
   #game-area {
-    width: 80%;
+    width: 70%;
   }
   
   .logo {
     padding-top: 0;
     gap: 15px;
-    font-size: 30px;
+    font-size: 20px;
   }
 
   .settings-button {
@@ -192,7 +192,6 @@ footer {
   
   .platform {
     width: 110px;
-    background-image: url(../images/cloud-platform.png);
     background-size: 110px 35px;
     height: 35px;
   }
@@ -209,7 +208,7 @@ footer {
 /* For Mobile Devices */
  @media only screen and (max-width: 600px) {
     #game-area {
-      width: 80%;
+      width: 90%;
     }
     
     .logo {
@@ -230,6 +229,18 @@ footer {
       width: 30px;
     }
   
+    .player {
+      width: 65px;
+      height: 85px;
+      background-size: 65px 85px;
+    }
+    
+    .platform {
+      width: 90px;
+      background-size: 90px 25px;
+      height: 25px;
+    }
+
     .scoreboard {
       font-size: 1rem;
     }
