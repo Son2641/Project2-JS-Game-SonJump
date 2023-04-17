@@ -77,19 +77,6 @@
   };
 
   // Platform
-  // class Platform {
-  //   constructor(newPlatformBottom) {
-  //     this.bottom = newPlatformBottom;
-  //     this.left = Math.random() * (gameAreaWidth - 100);
-  //     this.visual = document.createElement('div');
-
-  //     const visual = this.visual;
-  //     visual.classList.add('platform');
-  //     visual.style.left = this.left + 'px';
-  //     visual.style.bottom = this.bottom + 'px';
-  //     gameArea.appendChild(visual);
-  //   }
-  // }
   class Platform {
     constructor(newPlatformBottom, previousPlatform) {
       this.bottom = newPlatformBottom;
@@ -147,7 +134,7 @@
     }
 
     for (let i = 0; i < platformCount; i++) {
-      let newPlatformBottom = 110 + i * platformGap;
+      let newPlatformBottom = 100 + i * platformGap;
       let previousPlatform =
         platforms.length > 0 ? platforms[platforms.length - 1] : null;
       let newPlatform = new Platform(newPlatformBottom, previousPlatform);
@@ -161,6 +148,7 @@
     return basePosition + platformSpeed; // return the final platform position
   };
 
+  // Speed Increase of the game
   const increaseSpeed = () => {
     if (speed < maxSpeed) {
       speed += 1;
@@ -244,7 +232,7 @@
     }, 20);
   };
 
-  // Control button
+  // Keyboard Controls
   const toggleControls = (enable) => {
     controlsEnabled = enable;
   };
@@ -292,6 +280,7 @@
     }
   };
 
+  // Touch Screen Controls
   const handleStart = (event) => {
     event.preventDefault();
     for (const touch of event.changedTouches) {
@@ -339,6 +328,7 @@
     }
   };
 
+  // Touch Screen event listener
   gameArea.addEventListener('touchstart', handleStart, { passive: false });
   gameArea.addEventListener('touchend', handleEnd, { passive: false });
   gameArea.addEventListener('touchmove', handleMove, { passive: false });
@@ -424,6 +414,7 @@
     clearInterval(rightTimerId);
   };
 
+  // Controls and Quit game event listeners
   quitGame.addEventListener('click', gameOver);
   document.addEventListener('keydown', controls);
 })();
